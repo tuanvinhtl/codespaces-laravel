@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\ChartererController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +20,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('test', function () {
-    return 'success';
+Route::prefix('companies')->group(function () {
+    Route::get('', [CompanyController::class, 'index']);
+    Route::get('{uuid}', [CompanyController::class, 'show']);
+    Route::post('company', [CompanyController::class, 'store']);
+    Route::put('{id}', [CompanyController::class, 'update']);
+    Route::delete('{id}', [CompanyController::class, 'delete']);
 });
 
-Route::get('product', function () {
-    return 'product';
+Route::prefix('charterers')->group(function () {
+    Route::get('/', [ChartererController::class, 'index']);
 });

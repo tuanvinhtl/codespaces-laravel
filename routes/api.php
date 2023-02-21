@@ -24,8 +24,8 @@ Route::prefix('companies')->group(function () {
     Route::get('', [CompanyController::class, 'index']);
     Route::get('{uuid}', [CompanyController::class, 'show']);
     Route::post('company', [CompanyController::class, 'store']);
-    Route::put('{id}', [CompanyController::class, 'update']);
-    Route::delete('{id}', [CompanyController::class, 'delete']);
+    Route::put('{uuid}', [CompanyController::class, 'update']);
+    Route::delete('{uuid}', [CompanyController::class, 'delete']);
 });
 
 Route::prefix('charterers')->group(function () {

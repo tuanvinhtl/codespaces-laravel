@@ -15,7 +15,8 @@
         "eg2.tslint",
         "christian-kohler.path-intellisense",
         "esbenp.prettier-vscode",
-        "CoenraadS.bracket-pair-colorizer"
+        "CoenraadS.bracket-pair-colorizer",
+        "cweijan.vscode-mysql-client2"
 	],
     "settings": {
         "#terminal.integrated.shell.linux": "/bin/bash"

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCompanyRequest;
 use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use App\Http\Resources\CompanyCollection;
+use App\Http\Resources\CompanyResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -17,8 +19,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = Company::all();
-        return response()->json($companies, Response::HTTP_OK);
+        return new CompanyCollection(Company::all());
     }
 
     /**
@@ -51,7 +52,7 @@ class CompanyController extends Controller
      */
     public function show($uuid)
     {
-        return response()->json(Company::where('uuid', $uuid)->first(), Response::HTTP_OK);
+        return new CompanyResource(Company::where('uuid', $uuid)->first());
     }
 
     /**

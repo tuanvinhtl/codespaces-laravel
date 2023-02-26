@@ -23,9 +23,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('companies')->group(function () {
     Route::get('', [CompanyController::class, 'index']);
     Route::get('{uuid}', [CompanyController::class, 'show']);
+    Route::post('filter', [CompanyController::class, 'filter']);
     Route::post('company', [CompanyController::class, 'store']);
     Route::put('{uuid}', [CompanyController::class, 'update']);
-    Route::delete('{uuid}', [CompanyController::class, 'delete']);
+    Route::delete('{uuid}', [CompanyController::class, 'destroy']);
 });
 
 Route::prefix('charterers')->group(function () {

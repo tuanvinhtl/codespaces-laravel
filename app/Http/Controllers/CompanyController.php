@@ -9,13 +9,16 @@ use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\CompanyResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
+
 
 class CompanyController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\CompanyCollection
      */
     public function index()
     {
@@ -41,7 +44,8 @@ class CompanyController extends Controller
     public function store(StoreCompanyRequest $request)
     {
         $input = $request->all();
-        return response()->json(Company::create($input), Response::HTTP_OK);;
+        return response()->json(Company::create($input), Response::HTTP_OK);
+        ;
     }
 
     /**
@@ -52,7 +56,7 @@ class CompanyController extends Controller
      */
     public function show($uuid)
     {
-        return new CompanyResource(Company::where('uuid', $uuid)->first());
+        return new CompanyResource(Company::find($uuid));
     }
 
     /**
@@ -84,8 +88,8 @@ class CompanyController extends Controller
      * @param  \App\Models\Company  $company
      * @return \Illuminate\Http\Response
      */
-    public function destroy(company $company)
+    public function destroy($uuid)
     {
-        //
+        return Company::destroy($uuid);
     }
 }

@@ -11,6 +11,12 @@ class Company extends Model
 {
     use UuidTrait, HasFactory, SoftDeletes;
 
+     // column name of key
+     protected $primaryKey = 'uuid';
+
+     // type of key
+     protected $keyType = 'string';
+
     /**
      * The attributes that are mass assignable.
      *

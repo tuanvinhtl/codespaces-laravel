@@ -9,21 +9,19 @@ use App\Http\Resources\ApplicationCollection;
 
 trait FilterTrait
 {
-    public function filter(Request $request)
+    static public function filter($clauses)
     {
-        $where = $request->input(('clauses.where'));
-        $orderBy = $request->input(('clauses.order_by'));
-        $resource = $request->input(('resource'));
+        $where = $clauses['where'];
+        $orderBy = $clauses['order_by'];
 
-        $results = DB::table($resource)->where($where)->when(
+        $results = self::where($where)->when(
             !empty($orderBy),
             function ($query) use ($orderBy) {
                 foreach ($orderBy as $order) {
                     $query->orderBy(...$order);
                 }
             }
-        )->get();
-
+        )->paginate(15);
 
         return new ApplicationCollection($results);
     }

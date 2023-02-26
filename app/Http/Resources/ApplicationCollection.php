@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Resources;
-
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class ApplicationCollection extends JsonResource
+class ApplicationCollection extends ResourceCollection
 {
 
     /**
@@ -15,7 +15,7 @@ class ApplicationCollection extends JsonResource
      */
     public function toArray($request)
     {
-        self::$wrap = $request->input(('resource'));
-        return $this->resource;
+        self::$wrap = strtolower(class_basename($this->collection[0]));
+        return $this->collection;
     }
 }

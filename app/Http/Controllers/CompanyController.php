@@ -9,8 +9,6 @@ use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\CompanyResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
-
 
 class CompanyController extends Controller
 {
@@ -45,7 +43,11 @@ class CompanyController extends Controller
     {
         $input = $request->all();
         return response()->json(Company::create($input), Response::HTTP_OK);
-        ;
+    }
+
+    public function filter(Request $request)
+    {
+        return Company::filter($request->input('clauses'));
     }
 
     /**

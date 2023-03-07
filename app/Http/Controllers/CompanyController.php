@@ -8,7 +8,6 @@ use App\Models\Company;
 use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\CompanyResource;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class CompanyController extends Controller
 {
@@ -24,37 +23,26 @@ class CompanyController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreCompanyRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\StoreCompanyRequest $request
+     * @return \App\Http\Resources\CompanyResource
      */
     public function store(StoreCompanyRequest $request)
     {
-        $input = $request->all();
-        return response()->json(Company::create($input), Response::HTTP_OK);
+        return new CompanyResource(Company::create($request->all()));
     }
 
     public function filter(Request $request)
     {
-        return Company::filter($request->input('clauses'));
+        return Company::filter($request->input('clauses'), $request->query());
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Company $Company
-     * @return \Illuminate\Http\Response
+     * @param string $uuid
+     * @return \App\Http\Resources\CompanyResource
      */
     public function show($uuid)
     {
@@ -62,33 +50,22 @@ class CompanyController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Company $Company
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Company $company)
-    {
-        return $company;
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateCompanyRequest  $request
-     * @param  \App\Models\Company  $company
+     * @param  \App\Models\Company $company
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCompanyRequest $request, company $company)
+    public function update(UpdateCompanyRequest $request, $uuid)
     {
-        //
+        return Company::find($uuid)->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Company  $company
-     * @return \Illuminate\Http\Response
+     * @return number
      */
     public function destroy($uuid)
     {

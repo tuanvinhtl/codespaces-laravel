@@ -9,10 +9,12 @@ use App\Http\Resources\ApplicationCollection;
 
 trait FilterTrait
 {
-    static public function filter($clauses)
+    static public function filter($clauses, $queryParams)
     {
+
         $where = $clauses['where'];
         $orderBy = $clauses['order_by'];
+        $perPage = isset($queryParams['per_page']) ? $queryParams['per_page'] : 10;
 
         $results = self::where($where)->when(
             !empty($orderBy),
@@ -21,7 +23,7 @@ trait FilterTrait
                     $query->orderBy(...$order);
                 }
             }
-        )->paginate(15);
+        )->paginate($perPage);
 
         return new ApplicationCollection($results);
     }

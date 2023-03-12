@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\ChartererController;
 use App\Http\Controllers\Auth\LoginController;
 
@@ -18,12 +19,18 @@ use App\Http\Controllers\Auth\LoginController;
 */
 
 Route::post('auth/login', [LoginController::class, 'authenticate']);
-
-Route::group(['middleware' => ['auth:sanctum']], function () {
+// ['middleware' => ['auth:sanctum']]
+Route::group(['middleware' => []], function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-
+    Route::group(
+        ['prefix' => 'files'],
+        function () {
+            Route::get('', [CompanyController::class, 'index']);
+            Route::post('/file', [FileController::class, 'store']);
+        }
+    );
     Route::group(
         ['prefix' => 'companies'],
         function () {

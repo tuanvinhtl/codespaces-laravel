@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorefileRequest;
 use App\Http\Requests\UpdatefileRequest;
 use App\Models\File;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\FileResource;
 
 class FileController extends Controller
 {
@@ -32,11 +34,23 @@ class FileController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StorefileRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\FileResource
      */
     public function store(StorefileRequest $request)
     {
-        //
+        $file = request()->file('file');
+        $ext = $file->extension();
+        $originalName = $file->getClientOriginalName();
+        $path = $file->store('public/' . $ext);
+
+        $fileCreated = File::create([
+            'path' => $path,
+            'bucket' => 'local',
+            'extension' => $ext,
+            'original_filename' => $originalName
+        ]);
+
+        return new FileResource($fileCreated);
     }
 
     /**
